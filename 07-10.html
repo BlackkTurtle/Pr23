@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Практична_робота-23_07-10</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script>
+        import React, { useState } from 'react';
+
+const ProductsTable = ({ products }) => {
+  const [isCheckedAll, setIsCheckedAll] = useState(true);
+  const [isCheckedList, setIsCheckedList] = useState(products.map(() => true));
+
+  const handleCheckAll = (event) => {
+    setIsCheckedAll(event.target.checked);
+    setIsCheckedList(products.map(() => event.target.checked));
+  };
+
+  const handleCheck = (event, index) => {
+    const newIsCheckedList = [...isCheckedList];
+    newIsCheckedList[index] = event.target.checked;
+    setIsCheckedList(newIsCheckedList);
+    setIsCheckedAll(newIsCheckedList.every((isChecked) => isChecked));
+  };
+
+  const totalCost = products
+    .filter((_, index) => isCheckedList[index])
+    .reduce((total, { price, quantity }) => total + price * quantity, 0);
+
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" checked={isCheckedAll} onChange={handleCheckAll} />
+            </th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Cost</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map(({ name, price, quantity }, index) => (
+            <tr key={index}>
+              <td>
+                <input type="checkbox" checked={isCheckedList[index]} onChange={(event) => handleCheck(event, index)} />
+              </td>
+              <td>{name}</td>
+              <td>{price}</td>
+              <td>{quantity}</td>
+              <td>{price * quantity}</td>
+              <td>
+                <button onClick={() => handleDelete(index)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div>Total Cost: {totalCost}</div>
+    </div>
+  );
+};
+
+export default ProductsTable;
+
+    </script>
+  </body>
+</html>
+
+

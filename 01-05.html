@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Практична_робота-23_01-05</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script>
+     import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import UserTable from "./UserTable";
+
+function App() {
+  const [users, setUsers] = useState([
+    { id: 1, firstName: "John", lastName: "Doe", age: 30 },
+    { id: 2, firstName: "Jane", lastName: "Doe", age: 25 },
+    { id: 3, firstName: "Bob", lastName: "Smith", age: 40 }
+  ]);
+
+  const deleteUser = (userId) => {
+    setUsers(users.filter(user => user.id !== userId));
+  }
+
+  return (
+    <div>
+      <UserTable users={users} deleteUser={deleteUser} />
+    </div>
+  );
+}
+
+function User(props) {
+  const { id, firstName, lastName, age, deleteUser } = props;
+
+  return (
+    <tr>
+      <td>{firstName}</td>
+      <td>{lastName}</td>
+      <td>{age}</td>
+      <td>
+        <a href="#" onClick={() => deleteUser(id)}>Видалити</a>
+      </td>
+    </tr>
+  );
+}
+
+function UserTable(props) {
+  const { users, deleteUser } = props;
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Ім'я</th>
+          <th>Прізвище</th>
+          <th>Вік</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map(user => (
+          <User
+            key={user.id}
+            id={user.id}
+            firstName={user.firstName}
+            lastName={user.lastName}
+            age={user.age}
+            deleteUser={deleteUser}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+    </script>
+  </body>
+</html>
+
+

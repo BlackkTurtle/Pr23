@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Практична_робота-23_06</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script>
+        import React, { useState } from "react";
+
+function ListItem(props) {
+  const [editing, setEditing] = useState(false);
+  const { item, index } = props;
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    props.onChange(index, value);
+  };
+
+  const handleEditClick = () => {
+    setEditing(true);
+  };
+
+  const handleBlur = () => {
+    setEditing(false);
+  };
+
+  return (
+    <li>
+      {editing ? (
+        <input type="text" value={item.text} onChange={handleInputChange} onBlur={handleBlur} />
+      ) : (
+        <React.Fragment>
+          {item.text}
+          <a href="#" onClick={handleEditClick}>
+            Редагувати
+          </a>
+        </React.Fragment>
+      )}
+    </li>
+  );
+}
+
+function App() {
+  const [items, setItems] = useState([
+    { id: 1, text: "Елемент 1" },
+    { id: 2, text: "Елемент 2" },
+    { id: 3, text: "Елемент 3" },
+  ]);
+
+ 
+
+    </script>
+  </body>
+</html>
+
+
